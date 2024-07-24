@@ -8,7 +8,7 @@ const productsRouter = require('./STORE_API/routes/products')
 const express = require('express')
 const app = express()
 
-port = process.env.PORT || 5000
+port = process.env.PORT || 3000
 
 //middleware
 app.use(express.json())
