@@ -43,9 +43,6 @@ app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
 
 
-
-
-
 const start = async () => {
  try {
   await connectDB(process.env.MONGODB_URI)
