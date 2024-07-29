@@ -14,7 +14,8 @@ async function handleGenerateShortURL(req,res) {
                             visitHistory : []
     })
 
-    return res.status(200).json({id: shortID})
+    return res.render('home', { id: shortID})
+    //return res.status(200).json({id: shortID})
 }
 async function handleRedirectURL(req, res){
     const { shortId } = req.params
@@ -30,10 +31,14 @@ async function handleGetAnalytics(req, res){
     if (!entry) {
         return res.status(404).json({ msg: `No entry with id: ${shortId}` })
     }
+    
+
     res.status(200).json(
         {totalClicks: `The number of visits on ${entry.redirectURL} are ${entry.visitHistory.length}`,
         analytics: entry.visitHistory}
     )
 }
+
+
 
 module.exports = { handleGenerateShortURL, handleRedirectURL,handleGetAnalytics }
