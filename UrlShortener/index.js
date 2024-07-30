@@ -1,13 +1,17 @@
 const express = require('express')
 const app = express()
 const path = require('path')
-const urlModel = require('./models/url')
+const cookieParser = require('cookie-parser')
+
 require('dotenv').config()
 
 const urlRouter = require('./routes/url')
 const staticRouter = require('./routes/staticRouter')
-const connectDB = require('./connectDB/connectDB.js')
+const userRouter = require('./routes/user.js')
 
+const connectDB = require('./connectDB/connectDB.js')
+const urlModel = require('./models/url')
+const {restrictToLoggedInUserOnly,checkAuth} = require('./middleware/auth.js')
 
 const PORT = 3000
 
@@ -17,8 +21,12 @@ app.set('views', path.resolve('./views'))
 
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
-app.use('/url', urlRouter)
-app.use('/', staticRouter)
+app.use(cookieParser())
+
+
+app.use('/url',restrictToLoggedInUserOnly, urlRouter)
+app.use('/',checkAuth, staticRouter)
+app.use('/user',  userRouter)
 
 
 

@@ -3,6 +3,7 @@ const urlModel = require('../models/url')
 
 async function handleGenerateShortURL(req,res) {
     const {url} = req.body
+    console.log(url)
     const shortID = shortid(8)
 
     if(!url){
@@ -11,7 +12,8 @@ async function handleGenerateShortURL(req,res) {
 
     await urlModel.create({shortId: shortID,
                             redirectURL: url,
-                            visitHistory : []
+                            visitHistory : [],
+                            createdBy: req.user._id
     })
 
     return res.render('home', { id: shortID})
